@@ -1,7 +1,7 @@
 import sqlite3
 from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 con = sqlite3.connect('sqlitedb.sqlite3')
@@ -23,9 +23,11 @@ class UserOut(BaseModel):
 
 
 class Event(BaseModel):
+    date_in_7_days = datetime.now() + timedelta(days=7)
     event_name: str
     event_description: str
-    event_time: Optional[datetime] = datetime.now()
+    event_time: Optional[datetime] = datetime(year=date_in_7_days.year, month=date_in_7_days.month,
+                                              day=date_in_7_days.day, hour=18)
 
 
 @app.post("/user/", response_model=UserOut)
