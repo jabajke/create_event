@@ -1,10 +1,7 @@
-import sqlite3
 from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
 from datetime import datetime, timedelta
 from typing import Optional
-
-con = sqlite3.connect('sqlitedb.sqlite3')
 
 app = FastAPI()
 
