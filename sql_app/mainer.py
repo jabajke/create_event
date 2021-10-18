@@ -33,4 +33,6 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return users
 
 
-
+@app.post('/events/', response_model=schemas.Event)
+def create_event(event: schemas.EventCreate, db: Session = Depends(get_db)):
+    pass
