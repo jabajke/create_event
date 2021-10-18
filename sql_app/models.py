@@ -11,8 +11,9 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
+    is_admin = Column(Boolean, default=False)
 
-    event = relationship('Event', back_populates="owner")
+    event = relationship('Event', back_populates="users")
 
 
 class Event(Base):
@@ -23,4 +24,4 @@ class Event(Base):
     description = Column(String, index=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("User", back_populates="event")
+    users = relationship("User", back_populates="event")

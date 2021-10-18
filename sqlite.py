@@ -3,7 +3,7 @@ import sqlite3
 try:
     sqlite_connection = sqlite3.connect('sqlite_python.db')
     cursor = sqlite_connection.cursor()
-    print("База данных создана и успешно подключена к SQLite")
+    print("База данных успешно подключена к SQLite")
 
     sqlite_select_query = "select sqlite_version();"
     cursor.execute(sqlite_select_query)
