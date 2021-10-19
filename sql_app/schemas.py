@@ -14,7 +14,7 @@ class EventCreate(EventBase):
 
 class Event(EventBase):
     id: int
-    owner_id: int
+    member_id: int
 
     class Config:
         orm_mode = True

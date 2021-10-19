@@ -28,8 +28,8 @@ def get_event(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Event).offset(skip).limit(limit).all()
 
 
-def create_user_event(db: Session, item: schemas.EventCreate, user_id: int):
-    db_event = models.Event(**item.dict(), owner_id=user_id)
+def create_event(db: Session, item: schemas.EventCreate, user_id: int):
+    db_event = models.Event(**item.dict(), member_id=user_id)
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
