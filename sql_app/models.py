@@ -1,7 +1,12 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
 from .database import Base
+
+association_table = Table('association', Base.metadata,
+                          Column('users_id', ForeignKey('users.id'), primary_key=True),
+                          Column('events_id', ForeignKey('events_id'), primary_key=True)
+                          )
 
 
 class User(Base):
@@ -13,7 +18,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
 
-    event = relationship('Event', back_populates="users")
+    event = relationship('Event', secondary=association_table, back_populates='users')
 
 
 class Event(Base):
@@ -22,6 +27,6 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    member_id = Column(Integer, ForeignKey("users.id"))
 
-    users = relationship("User", back_populates="event")
+    users = relationship("User", secondary=association_table, back_populates="events")
