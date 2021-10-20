@@ -24,7 +24,7 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_event(db: Session, skip: int = 0, limit: int = 100):
+def get_events(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Event).offset(skip).limit(limit).all()
 
 
@@ -34,3 +34,5 @@ def create_event(db: Session, item: schemas.EventCreate, user_id: int):
     db.commit()
     db.refresh(db_event)
     return db_event
+
+

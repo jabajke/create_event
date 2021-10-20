@@ -33,7 +33,7 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return users
 
 
-@app.get('users/{user_id}')
+@app.get('/users/{user_id}')
 def read_user(user_id: int, db: Session = Depends(get_db)):
     user_db = crud.get_user(db, user_id=user_id)
     if user_db is None:
@@ -42,20 +42,24 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @app.get('/users/{user_id}/events/', response_model=List[schemas.Event])
-def get_event_for_user(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    events = crud.get_event(db, skip=skip, limit=limit)
-    return events
+def get_event_for_user(user_id: int, db: Session = Depends(get_db)):
+    pass
 
 
-# Недоделанный
 @app.post('/events/', response_model=schemas.Event)
 def create_event(user_id: int, event: schemas.EventCreate, db: Session = Depends(get_db)):
     if crud.get_user(db, user_id=user_id).is_admin:
-        db_event = crud.get_event(db)
+        db_event = crud.create_event(db, item=event, user_id=user_id)
     return db_event
 
 
 @app.get('/events/', response_model=List[schemas.Event])
-def get_event(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    events = crud.get_event(db, skip=skip, limit=limit)
+def get_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    events = crud.get_events(db, skip=skip, limit=limit)
     return events
+
+
+# Сделать пост запрос, который будет записывать ид юзера на определенный ивент
+@app.post('/events/sign', response_model=schemas.Event)
+def sign_on_event(user_id: int, event: schemas.Event, db: Session = Depends(get_db)):
+    pass

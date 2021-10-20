@@ -3,10 +3,19 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
-association_table = Table('association', Base.metadata,
-                          Column('users_id', ForeignKey('users.id'), primary_key=True),
-                          Column('events_id', ForeignKey('events_id'), primary_key=True)
-                          )
+# association_table = Table('association', Base.metadata,
+#                           Column('users_id', ForeignKey('users.id'), primary_key=True),
+#                           Column('events_id', ForeignKey('events_id'), primary_key=True)
+#                           )
+
+
+class Association(Base):
+    __tablename__ = 'association'
+    left_id = Column(ForeignKey('users.id'), primary_key=True)
+    right_id = Column(ForeignKey('events.id'), primary_key=True)
+    extra_data = Column(String(50))
+    events = relationship('Event', back_populates='users')
+    users = relationship('User', back_populates='events')
 
 
 class User(Base):
@@ -18,7 +27,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     is_admin = Column(Boolean, default=False)
 
-    event = relationship('Event', secondary=association_table, back_populates='users')
+    events = relationship('Association', back_populates='users')
 
 
 class Event(Base):
@@ -29,4 +38,4 @@ class Event(Base):
     description = Column(String, index=True)
     member_id = Column(Integer, ForeignKey("users.id"))
 
-    users = relationship("User", secondary=association_table, back_populates="events")
+    users = relationship("Association", back_populates="events")
