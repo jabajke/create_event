@@ -36,3 +36,5 @@ def create_event(db: Session, item: schemas.EventCreate, user_id: int):
     return db_event
 
 
+def get_association(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Association).offset(skip).limit(limit).all()
