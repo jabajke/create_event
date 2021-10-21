@@ -16,7 +16,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    not_hashed_password = user.password + "not hashed"
+    not_hashed_password = user.password + " not hashed"
     db_user = models.User(username=user.username, hashed_password=not_hashed_password)
     db.add(db_user)
     db.commit()
@@ -36,8 +36,13 @@ def create_event(db: Session, item: schemas.EventCreate, user_id: int):
     return db_event
 
 
-def get_association(db: Session, skip: int = 0, limit: int = 100):
+def get_associations(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Association).offset(skip).limit(limit).all()
+
+
+def get_association(db: Session, left_id: int):
+    associations = db.query(models.Association).filter(models.User.id == left_id)
+    return associations
 
 
 def create_association(db: Session, item: schemas.AssociationCreate, left_id: int, right_id: int):

@@ -7,6 +7,7 @@ from .database import Base
 class Association(Base):
     __tablename__ = 'associations'
 
+    id = Column(Integer, primary_key=True, index=True)
     left_id = Column(ForeignKey('users.id'), primary_key=True)
     right_id = Column(ForeignKey('events.id'), primary_key=True)
     extra_data = Column(String(50))
