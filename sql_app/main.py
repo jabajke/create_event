@@ -41,9 +41,11 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return user_db
 
 
-@app.get('/users/{user_id}/events/', response_model=List[schemas.Event])
-def get_event_for_user(user_id: int, db: Session = Depends(get_db)):
-    pass
+# dodelat
+@app.get('/users/{left_id}/events/')
+def get_event_for_user(left_id: int, db: Session = Depends(get_db)):
+    user = crud.get_association(db, left_id=left_id)
+    return user
 
 
 @app.post('/events/', response_model=schemas.Event)
@@ -59,10 +61,8 @@ def get_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return events
 
 
-# Сделать пост запрос, который будет записывать ид юзера на определенный ивент
+# сделать проверку, записан ли пользователь на данный ивент
 @app.post('/events/sign/', response_model=schemas.Association)
 def sign_on_event(left_id: int, right_id: int, association: schemas.AssociationCreate, db: Session = Depends(get_db)):
     db_association = crud.create_association(db, item=association, left_id=left_id, right_id=right_id)
     return db_association
-
-
