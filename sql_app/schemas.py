@@ -35,3 +35,19 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class AssociationBase(BaseModel):
+    extra_data: str
+
+
+class AssociationCreate(AssociationBase):
+    pass
+
+
+class Association(AssociationBase):
+    left_id: int
+    right_id: int
+
+    class Config:
+        orm_mode = True

@@ -60,6 +60,9 @@ def get_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 
 
 # Сделать пост запрос, который будет записывать ид юзера на определенный ивент
-@app.post('/events/sign', response_model=schemas.Event)
-def sign_on_event(user_id: int, event: schemas.Event, db: Session = Depends(get_db)):
-    pass
+@app.post('/events/sign/', response_model=schemas.Association)
+def sign_on_event(left_id: int, right_id: int, association: schemas.AssociationCreate, db: Session = Depends(get_db)):
+    db_association = crud.create_association(db, item=association, left_id=left_id, right_id=right_id)
+    return db_association
+
+

@@ -38,3 +38,11 @@ def create_event(db: Session, item: schemas.EventCreate, user_id: int):
 
 def get_association(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Association).offset(skip).limit(limit).all()
+
+
+def create_association(db: Session, item: schemas.AssociationCreate, left_id: int, right_id: int):
+    db_association = models.Association(**item.dict(), left_id=left_id, right_id=right_id)
+    db.add(db_association)
+    db.commit()
+    db.refresh(db_association)
+    return db_association
