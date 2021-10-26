@@ -31,7 +31,6 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
-    events: List[Event] = []
 
     class Config:
         orm_mode = True

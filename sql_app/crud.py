@@ -41,7 +41,7 @@ def get_associations(db: Session, skip: int = 0, limit: int = 100):
 
 
 def get_association(db: Session, left_id: int):
-    associations = db.query(models.Association).filter(models.User.id == left_id).all()
+    associations = db.query(models.Association).filter(models.Association.left_id == left_id).all()
     return associations
 
 
