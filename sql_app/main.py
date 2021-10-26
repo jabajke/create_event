@@ -27,6 +27,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
+# ne rabotaet
 @app.get('/users/', response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
@@ -41,7 +42,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return user_db
 
 
-# dodelat
+# ne rabotaet
 @app.get('/users/{left_id}/events/')
 def get_event_for_user(left_id: int, db: Session = Depends(get_db)):
     user = crud.get_association(db, left_id=left_id)
@@ -61,8 +62,8 @@ def get_events(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return events
 
 
-# сделать проверку, записан ли пользователь на данный ивент
 @app.post('/events/sign/', response_model=schemas.Association)
-def sign_on_event(left_id: int, right_id: int, association: schemas.AssociationCreate, db: Session = Depends(get_db)):
+def sign_on_event(left_id: int, right_id: int, association: schemas.AssociationCreate,
+                  db: Session = Depends(get_db)):
     db_association = crud.create_association(db, item=association, left_id=left_id, right_id=right_id)
     return db_association
