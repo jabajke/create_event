@@ -27,7 +27,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
-# ne rabotaet
 @app.get('/users/', response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
@@ -42,8 +41,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return user_db
 
 
-# ne rabotaet
-@app.get('/users/{left_id}/events/')
+@app.get('/users/{left_id}/events/', response_model=List[schemas.Association])
 def get_event_for_user(left_id: int, db: Session = Depends(get_db)):
     user = crud.get_association(db, left_id=left_id)
     return user
